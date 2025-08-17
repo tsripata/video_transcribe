@@ -181,9 +181,11 @@ def process_video_folder(folder_path: str, output_csv: str, language: str = None
                 if segments:
                     # Write segments to CSV
                     for start_time, end_time, text in segments:
-                        # Use start time for the timestamp
+                        # Use start time for the timestamp, rounded to nearest 30 seconds
                         time_mins = seconds_to_minutes(start_time)
-                        writer.writerow([video_name, f"{time_mins:.2f}", text])
+                        # Round to nearest 30 seconds (0.5 minutes)
+                        rounded_mins = round(time_mins * 2) / 2
+                        writer.writerow([video_name, f"{rounded_mins:.1f}", text])
                     
                     print(f"  Transcribed {len(segments)} segments")
                 else:
